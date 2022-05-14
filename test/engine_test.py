@@ -1,4 +1,4 @@
-from swgoh.engine import SWGOH
+from swgoh.engine.swgohhelp import SWGOH
 
 def run_swgoh_engine():
     try:

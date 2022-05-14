@@ -1,17 +1,16 @@
-import json
-from swgoh import load
+from swgoh import engine
 from config import SOURCE
+from swgoh.load import collections
 
-def read_collection(source, collection):
-    with open(f'{source}\{collection}.json') as json_data:
-        data = json.load(json_data)
-    return data
 
 def upload_collections():
-    characters = read_collection(SOURCE, 'characters')
-    ships = read_collection(SOURCE, 'ships')
-    gear = read_collection(SOURCE, 'gear')
 
-    load.characters(characters)
-    load.ships(ships)
-    load.gear(gear)
+    characters = engine.read_collection(SOURCE, 'characters')
+    ships = engine.read_collection(SOURCE, 'ships')
+    gear = engine.read_collection(SOURCE, 'gear')
+    abilities = engine.read_collection(SOURCE, 'abilities')
+
+    collections.characters(characters)
+    collections.ships(ships)
+    collections.gear(gear)
+    collections.skills(abilities)

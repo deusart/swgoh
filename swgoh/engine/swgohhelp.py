@@ -1,4 +1,4 @@
-from swgoh.dictionaries import urls
+from swgoh.engine.dictionaries import urls
 import requests
 import config
 from json import loads, dumps
