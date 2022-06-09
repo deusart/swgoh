@@ -1,8 +1,14 @@
 from swgoh.engine.dictionaries import legends
 from swgoh import sql
 
-def prepare_current():
-    sql.execute('UPDATE stage.members SET member_current = 0 WHERE updated_at < (getdate()-1)')
+def prepare_current(roster):
+
+    members_current = roster[0]['allyCode']
+    for member in roster[1:]:
+        allycode = str(member['allyCode'])
+        members_current = f'{members_current},{allycode}'
+    query = f"EXEC stage.insert_members_current '{members_current}'"
+    sql.execute(query)
 
 def member_units(allycode, updated, roster):
     for unit in roster:
@@ -32,6 +38,18 @@ def __member_character(allycode, updated, character):
     character_level = character['level']
     character_power = character['gp']
     character_gear = character['gear']
+
+    equipped = list()
+    for gear in character['equipped']:
+        equipped.append(gear['slot'])
+
+    gears = list()
+    for step in range(6):
+        if step in equipped:
+            gears.append(1)
+        else:
+            gears.append(0)
+
     if character['defId'] in legends:
         is_legend = True
     else:
@@ -59,6 +77,7 @@ def __member_character(allycode, updated, character):
         allycode
         , character_id, is_legend, character_level, character_power, character_gear
         , character_stars, character_relic, character_zetas, character_omegas
+        , gears[0], gears[1], gears[2], gears[3], gears[4], gears[5]
         , updated
     )
 
@@ -75,9 +94,17 @@ def __member_ship(allycode, updated, ship):
     sql.members.update_member_ship(allycode, ship_id, is_legend, ship_level, ship_power, ship_stars, updated)
 
 def member(member):
+    
+    if len(member['grandArena']) > 0:
+        index = len(member['grandArena']) - 1
+        ligue = member['grandArena'][index]['league']
+    else:
+        ligue = 0
+    name = member['name'].replace('"','').replace("'","")
+
     sql.members.update_member(
-        member['name'], member['allyCode'], member['gp']
-        , member['gpChar'], member['gpShip'], member['updated']
+        name, member['allyCode'], member['gp']
+        , member['gpChar'], member['gpShip'], ligue, member['updated']
         )
 
 def _relic_fix(character_relic):

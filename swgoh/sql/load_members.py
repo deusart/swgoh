@@ -4,6 +4,7 @@ def update_member_character(
         allycode
         , character_id, is_legend, character_level, character_power, character_gear
         , character_stars, character_relic, character_zetas, character_omegas
+        , gears_01, gears_02, gears_03, gears_04, gears_05, gears_06
         , updated
         ):    
     query = "exec stage.insert_member_character "
@@ -16,7 +17,13 @@ def update_member_character(
     query += f"'{character_stars}', "
     query += f"'{character_relic}', "
     query += f"'{character_zetas}', "
-    query += f"'{character_omegas}', "   
+    query += f"'{character_omegas}', "
+    query += f"'{gears_01}', "
+    query += f"'{gears_02}', "
+    query += f"'{gears_03}', "
+    query += f"'{gears_04}', "
+    query += f"'{gears_05}', "
+    query += f"'{gears_06}', "   
     query += f"'{updated}' "
     execute(query)
 
@@ -36,7 +43,8 @@ def update_member_ship(
 
 def update_member(
 		member_name, member_allycode, member_power
-		, member_power_characters, member_power_ships, updated
+		, member_power_characters, member_power_ships
+        , member_ligue, updated
         ):    
     query = "exec stage.insert_member "
     query += f"'{member_name}', "
@@ -44,6 +52,7 @@ def update_member(
     query += f"'{member_power}', "
     query += f"'{member_power_characters}', "
     query += f"'{member_power_ships}', "
+    query += f"'{member_ligue}', "
     query += f"'{updated}' "
     execute(query)
 

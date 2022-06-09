@@ -1,6 +1,6 @@
 from swgoh.engine.dictionaries import urls
 import requests
-import config
+import config.config as config
 from json import loads, dumps
 
 class SWGOH(object):

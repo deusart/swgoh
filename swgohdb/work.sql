@@ -1,0 +1,12 @@
+USE swgoh
+GO
+
+SELECT * 
+FROM 
+input.goals
+
+	SELECT mcg.*
+	FROM core.members_characters_gear mcg
+	INNER JOIN input.goals g on g.unit_id = mcg.character_id
+	WHERE member_allycode = fn.player() AND g.unit_type = 'character'
+	AND mcg.gear_ready = 0 and g.unit_gear >= mcg.character_tier

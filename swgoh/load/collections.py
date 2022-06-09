@@ -1,5 +1,5 @@
 from swgoh import sql
-
+from swgoh.load import utils
 
 def ships(ships):
     for ship in ships:  

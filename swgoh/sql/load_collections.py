@@ -1,5 +1,11 @@
 from swgoh.sql.engine import execute
 
+def empty_output(value):
+    pass
+
+output = empty_output
+
+
 def update_character(character_id, character_name, character_url
             , character_image, character_power, character_description
             , character_alignment, character_ship, character_shards, character_tags):
@@ -14,6 +20,7 @@ def update_character(character_id, character_name, character_url
     query += f"'{character_ship}', "
     query += f"'{character_shards}', "
     query += f"'{character_tags}'"
+    output(query)
     execute(query)
 
 def update_ship(ship_id, ship_name, ship_url
@@ -31,6 +38,7 @@ def update_ship(ship_id, ship_name, ship_url
     query += f"'{ship_capital_ship}', "
     query += f"'{ship_shards}',"
     query += f"'{ship_tags}'"
+    output(query)
     execute(query)
 
 def update_character_gear(character_id, character_tier
@@ -45,6 +53,7 @@ def update_character_gear(character_id, character_tier
     query += f"'{gear_slot_04}', "
     query += f"'{gear_slot_05}', "
     query += f"'{gear_slot_06}' "
+    output(query)
     execute(query)
 
 def update_gear(gear_id, gear_name
@@ -59,6 +68,7 @@ def update_gear(gear_id, gear_name
     query += f"'{gear_image}', "
     query += f"'{gear_cost}', "
     query += f"'{gear_mark}' "
+    output(query)
     execute(query)
 
 def update_gear_recipe(gear_id, gear_part_id, amount):    
@@ -66,6 +76,7 @@ def update_gear_recipe(gear_id, gear_part_id, amount):
     query += f"'{gear_id}', "
     query += f"'{gear_part_id}', "
     query += f"'{amount}' "
+    output(query)
     execute(query)
 
 def update_skill(
@@ -82,6 +93,7 @@ def update_skill(
     query += f"'{is_omega}', "
     query += f"'{is_omicron}', "
     query += f"'{omicron_mode}' "
+    output(query)
     execute(query)
     
  

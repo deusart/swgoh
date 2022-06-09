@@ -1,4 +1,4 @@
-import json
+import json, os
 from swgoh.engine.swgohhelp import SWGOH
 
 swgoh = SWGOH()
@@ -8,3 +8,12 @@ def read_collection(source, collection):
         data = json.load(json_data)
     return data
 
+def save_log(path, message):
+    try:
+        os.mkdir(f'{path}')
+    except OSError as error:
+        pass 
+
+    log = open(f'{path}\\log.txt', 'a')
+    log.write(message)
+    log.close()

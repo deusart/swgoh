@@ -33,3 +33,15 @@ def update_opponent_ship(
     query += f"'{ship_stars}', "    
     query += f"'{updated}' "
     execute(query)
+
+def update_opponent(
+		opponent_allycode, opponent_name
+		, opponent_power, opponent_ligue, updated 
+    ): 
+    query = "exec stage.insert_opponent "
+    query += f"'{opponent_allycode}', "
+    query += f"'{opponent_name}', "
+    query += f"'{opponent_power}', "
+    query += f"'{opponent_ligue}', "  
+    query += f"'{updated}' "
+    execute(query)

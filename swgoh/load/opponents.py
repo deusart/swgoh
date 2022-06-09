@@ -4,6 +4,7 @@ from swgoh import sql
 def opponent_truncate():
     sql.execute('TRUNCATE TABLE stage.opponents_characters;')
     sql.execute('TRUNCATE TABLE stage.opponents_ships;')
+    sql.execute('TRUNCATE TABLE stage.opponents;')
 
 def opponent_name(name):
     sql.execute(f"UPDATE stage.customs SET custom_value_char = '{name}' WHERE custom_id = 'opponets_name';")
@@ -62,6 +63,16 @@ def __opponent_ship(allycode, updated, ship):
         is_legend = False
     sql.opponents.update_opponent_ship(allycode, ship_id, is_legend, ship_level, ship_power, ship_stars, updated)
 
+def opponent(opponent):
+    
+    if len(opponent['grandArena']) > 0:
+        index = len(opponent['grandArena']) - 1
+        ligue = opponent['grandArena'][index]['league']
+    else:
+        ligue = 0
+    
+    name = opponent['name'].replace('"','').replace("'","")
+    sql.opponents.update_opponent(opponent['allyCode'], name, opponent['gp'], ligue, opponent['updated'])
 
 def _relic_fix(character_relic):    
     if character_relic == 1:

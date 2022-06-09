@@ -6,7 +6,7 @@ scope = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("swgoh-key.json", scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name(".\config\swgoh-key.json", scope)
 
 def update_google_legends():
     client = gspread.authorize(creds)
@@ -58,14 +58,16 @@ def update_google_guildwars():
     sheet = client.open(file)
 
     query = """
-    SELECT 
-        track
-        , analitics
-        , guild_units_count
-        , guild_units_power
-        , enemy_units_count
-        , enemy_units_power
-    FROM hordeby.google.gvg_rosters
+SELECT
+	ligue
+    , analitics
+    , member_count
+    , member_power
+    , opponent_count
+    , opponent_power
+    , delat_count
+    , delat_power
+FROM swgoh.google.gvg_ligue
     ;
     """
     data = select(query)
@@ -75,11 +77,29 @@ def update_google_guildwars():
     worksheet = sheet.worksheet("GUILDWARS")
     worksheet.update('A3', gdata)
 
+    query = """
+    SELECT 
+        track
+        , analitics
+        , guild_units_count
+        , guild_units_power
+        , enemy_units_count
+        , enemy_units_power
+    FROM swgoh.google.gvg_rosters
+    ;
+    """
+    data = select(query)
+    gdata = []
+    for item in data:
+        gdata.append(list(item))
+    worksheet = sheet.worksheet("GUILDWARS")
+    worksheet.update('A9', gdata)
+
 
     query = """
     SELECT TOP 1
-    concat('The Horder BY vs ', custom_value_char) as value
-    FROM hordeby.stage.customs
+    concat('The Horde BY -- vs -- ', custom_value_char) as value
+    FROM swgoh.stage.customs
     ;
     """
     data = select(query)
@@ -88,3 +108,26 @@ def update_google_guildwars():
         gdata.append(list(item))
     worksheet = sheet.worksheet("GUILDWARS")
     worksheet.update('A1', gdata)
+
+def update_google_guild():
+    client = gspread.authorize(creds)
+    file = 'thehordeby'
+    sheet = client.open(file)
+
+    query = """
+    SELECT
+        member_name, member_allycode, member_ligue
+        , avg_tickets_lifetime, avg_tickets_month, tickets_last_updated
+        , member_power, member_power_characters, member_power_ships
+        , legend_count, relics_count, omicrons_count, zetas_count
+        , r9_count, r8_count, r7_count, r0_6_count, g12_count
+        , top_unit
+        , omicrons_ga5x5, omicrons_ga3x3, omicrons_tb, omicrons_tw        
+    FROM swgoh.google.members
+    """
+    data = select(query)
+    gdata = []
+    for item in data:
+        gdata.append(list(item))
+    worksheet = sheet.worksheet("GUILD")
+    worksheet.update('A3', gdata)
