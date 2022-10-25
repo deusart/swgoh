@@ -12,6 +12,6 @@ AS
 		  , IIF(LEN(character_ship)>0,1,0) AS is_pilot
 		  , character_shards
 		  , character_tags
-		  , IIF(CHARINDEX('Legend', character_tags)>0, 1,0) AS is_legend
+		  , IIF(CHARINDEX('Legend', character_tags)>0,1,0) AS is_legend
 	FROM stage.characters
 GO

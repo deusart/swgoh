@@ -11,5 +11,6 @@ SELECT
 		, 4
 	) AS completion
 FROM rules.status_legends
+WHERE fn.is_current(member_allycode) = 1
 GROUP BY member_allycode, legend_id;
 GO

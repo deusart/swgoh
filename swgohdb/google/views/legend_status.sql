@@ -15,7 +15,8 @@ SELECT
 	, sum(iif(legend_id = 'LORDVADER', completion, 0.0)) as glvader
 	, sum(iif(legend_id = 'GRANDMASTERLUKE', completion, 0.0)) as glluke
 	, sum(iif(legend_id = 'CAPITALEXECUTOR', completion, 0.0)) as glexecutor
+	, sum(iif(legend_id = 'PROFUNDITY', completion, 0.0)) as glprofundity
+	, sum(iif(legend_id = 'JUBBATHEHUTT', completion, 0.0)) as gljabba
 FROM core.status_legends ls
-WHERE fn.is_current(member_allycode) = 1
-group by ls.member_allycode
+GROUP BY ls.member_allycode
 GO

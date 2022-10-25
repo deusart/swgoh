@@ -46,7 +46,7 @@ BEGIN
 		BEGIN
 			UPDATE stage.members_ships
 			SET member_allycode = @member_allycode
-				, ship_id = ship_id
+				, ship_id = @ship_id
 				, is_legend = @is_legend
 				, ship_level = @ship_level
 				, ship_power = @ship_power
