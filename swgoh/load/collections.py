@@ -11,8 +11,7 @@ def ships(ships):
         print(f'Ship: {ship["name"]} updated.')
 
 def characters(characters):
-    for character in characters:
-
+    for character in characters:  
         sql.collections.update_character(
             character["base_id"], character["name"].replace('"','').replace("'",""), character["url"]
             , character["image"], character["power"], character["description"].replace('"','').replace("'","")

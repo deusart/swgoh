@@ -2,6 +2,7 @@ from swgoh.engine.dictionaries import urls
 import requests
 import config.config as config
 from json import loads, dumps
+from swgoh.engine.utils import save_log
 
 class SWGOH(object):
     def __init__(self
@@ -30,6 +31,7 @@ class SWGOH(object):
                      "message": error}
         _token = loads(response.content.decode('utf-8'))['access_token']
         self.head = {'Method': 'POST','Content-Type': 'application/json','Authorization': "Bearer "+_token}
+        save_log(config.LOG, 'Token received')
 
     def __get_data(self, url, data):
         try:
@@ -39,8 +41,11 @@ class SWGOH(object):
                 data = {"status_code" : response.status_code,
                          "message": error}
             data = loads(response.content.decode('utf-8'))
-        except:
+            # save_log(config.LOG, 'Data received')
+        except Exception as err:
             data = {"message": 'Cannot fetch data'}
+            save_log(config.LOG, 'Data receiving failed')
+            save_log(config.LOG, err)
         return data    
 
     def __userdata(self, collection, allycode=None):

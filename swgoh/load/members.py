@@ -93,19 +93,31 @@ def __member_ship(allycode, updated, ship):
 
     sql.members.update_member_ship(allycode, ship_id, is_legend, ship_level, ship_power, ship_stars, updated)
 
+def __member_gac(allycode, grand_arena):
+
+    for season in grand_arena:
+        sql.members.update_member_gac(
+            allycode, season['seasonId'], season['eventInstanceId']
+			, season['league'], season['division'], season['seasonPoints']
+			, season['rank'], season['endTime']
+            ) 
+
 def member(member):
-    
+
     if len(member['grandArena']) > 0:
         index = len(member['grandArena']) - 1
         ligue = member['grandArena'][index]['league']
+        __member_gac(member['allyCode'], member['grandArena'])
     else:
         ligue = 0
+
     name = member['name'].replace('"','').replace("'","")
 
     sql.members.update_member(
         name, member['allyCode'], member['gp']
         , member['gpChar'], member['gpShip'], ligue, member['updated']
         )
+
 
 def _relic_fix(character_relic):
     
@@ -129,4 +141,3 @@ def _relic_fix(character_relic):
         return 0   
     else:
         return 0
-

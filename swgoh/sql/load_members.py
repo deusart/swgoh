@@ -70,3 +70,19 @@ def update_member_character_skill(
     query += f"'{is_zeta}', "
     query += f"'{updated}' "
     execute(query)
+
+def update_member_gac(
+            member_allycode, season_id, event_id
+			, gac_ligue, gac_division, gac_banners
+			, gac_rank, gac_end_time
+        ):    
+    query = "exec stage.insert_member_gac "
+    query += f"'{member_allycode}', "
+    query += f"'{season_id}', "
+    query += f"'{event_id}', "
+    query += f"'{gac_ligue}', "
+    query += f"'{gac_division}', "
+    query += f"'{gac_banners}', "
+    query += f"'{gac_rank}', "
+    query += f"'{gac_end_time}' "
+    execute(query)
