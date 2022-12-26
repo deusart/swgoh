@@ -13,7 +13,7 @@ SELECT
 FROM stage.members AS m 
 INNER JOIN rules.members_roster AS mcr 
 	ON m.member_allycode = mcr.member_allycode
-INNER JOIN hordeby.analise.members_omicrons AS mo ON m.member_allycode = mo.member_allycode 
+INNER JOIN rules.members_omicrons AS mo ON m.member_allycode = mo.member_allycode 
 INNER JOIN stage.members_current mc on mc.member_allycode = m.member_allycode
 INNER JOIN rules.power_progress pp on pp.member_allycode = m.member_allycode
 WHERE (m.member_current = 1)

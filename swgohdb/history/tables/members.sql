@@ -15,6 +15,8 @@ BEGIN
 		, member_power_characters bigint NULL
 		, member_power_ships bigint NULL
 		, member_ligue nvarchar(max) NULL
+		, member_squad_rank int NULL
+		, member_fleet_rank int NULL
 		, updated bigint NULL
 		, created_at datetime NOT NULL
 		, updated_at datetime NOT NULL
@@ -33,10 +35,12 @@ BEGIN
 	INSERT INTO history.members(
 		member_name, member_allycode, member_power
 		, member_power_characters, member_power_ships
-		, member_ligue, updated
+		, member_ligue, member_squad_rank, member_fleet_rank 
+		, updated
 		)
 	select 	member_name, member_allycode, member_power
 		, member_power_characters, member_power_ships
-		, member_ligue, updated
+		, member_ligue, member_squad_rank, member_fleet_rank
+		, updated
 	from inserted
 END

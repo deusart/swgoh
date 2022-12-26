@@ -15,6 +15,7 @@ AS
 		, c.r0_6_count
 		, c.g12_count
 		, c.zetas_count
+		, c.total_relic_levels
 		, c.top_unit
 	FROM (
 		SELECT 
@@ -27,6 +28,7 @@ AS
 			, SUM(IIF(character_relic = 7, 1, 0)) AS r7_count
 			, SUM(IIF(character_relic <= 6 AND character_gear = 13, 1, 0)) AS r0_6_count
 			, SUM(IIF(character_gear = 12, 1, 0)) AS g12_count
+			, SUM(character_relic) AS total_relic_levels
 			, MAX(ms.total_zetas_applied) AS zetas_count
 			, (
 				SELECT TOP 1 

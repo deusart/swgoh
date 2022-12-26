@@ -47,17 +47,16 @@ BEGIN
 		) <> @hash_diff
 		BEGIN
 			UPDATE stage.members_gac
-			SET member_allycode = @member_allycode
-				, season_id = @ship_id
-				, is_legend = @is_legend
-				, ship_level = @ship_level
-				, ship_power = @ship_power
-				, ship_stars = @ship_stars
-				, updated = @updated
+			SET event_id = @event_id
+				, gac_ligue = @gac_ligue
+				, gac_division = @gac_division
+				, gac_banners = @gac_banners
+				, gac_rank = @gac_rank
+				, gac_end_time = @gac_end_time
 				, hash_diff = @hash_diff
 				, updated_at = GETUTCDATE()
 			WHERE member_allycode = @member_allycode 
-			AND ship_id = @ship_id
+			AND season_id = @season_id
 		END
 	END
 END

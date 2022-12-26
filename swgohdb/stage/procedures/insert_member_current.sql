@@ -9,4 +9,7 @@ BEGIN
 
 	INSERT INTO stage.members_current(member_allycode)
 	SELECT value FROM STRING_SPLIT(@members, ',')
+
+	INSERT INTO history.members_current(member_allycode)
+	SELECT member_allycode FROM stage.members_current
 END

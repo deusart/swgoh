@@ -41,10 +41,6 @@ IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = N'archive')
 EXEC('CREATE SCHEMA archive');
 GO
 
---IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = N'analise')
---EXEC('CREATE SCHEMA analise');
---GO
-
---IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = N'google')
---EXEC('CREATE SCHEMA google');
---GO
+IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = N'storage')
+EXEC('CREATE SCHEMA storage');
+GO

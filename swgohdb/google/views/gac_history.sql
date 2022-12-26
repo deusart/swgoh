@@ -1,7 +1,7 @@
 USE swgoh
 GO
 
-CREATE OR ALTER VIEW core.gac_history
+CREATE OR ALTER VIEW google.gac_history
 AS
 	SELECT 
 		m.member_name
@@ -34,6 +34,7 @@ AS
 	FROM core.gac_seasons gs
 	INNER JOIN stage.members_gac as mg on gs.season_id = mg.season_id
 	INNER JOIN stage.members m on mg.member_allycode = m.member_allycode
+	INNER JOIN stage.members_current mc on mg.member_allycode = mc.member_allycode
 	group by m.member_name, m.member_allycode, m.member_ligue
 GO
 

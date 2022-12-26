@@ -22,11 +22,14 @@ AS
 		, mr.ships_count
 		, mr.legends_count
 		, mr.relics_count
+		, mr.total_relic_levels
 		, mr.r9_count
 		, mr.r8_count
 		, mr.r7_count
 		, mr.r0_6_count
 		, mr.g12_count
+		, m.member_fleet_rank
+		, m.member_squad_rank AS member_arena_rank
 		, pp.avg_monthly_power
 		, m.created_at AS join_date
 		, fn.timestamp_date(m.updated) as updated_at
@@ -36,3 +39,5 @@ AS
 	INNER JOIN rules.power_progress AS pp ON m.member_allycode = pp.member_allycode
 	INNER JOIN stage.members_current AS mc ON m.member_allycode = mc.member_allycode
 GO
+
+

@@ -16,6 +16,8 @@ BEGIN
 		, member_power_ships bigint NULL
 		, member_current int NULL
 		, member_ligue nvarchar(max) NULL
+		, member_arena_rank int NULL
+		, member_fleet_rank int NULL
 		, updated bigint NULL
 		, hash_diff binary(16) NOT NULL
 		, created_at datetime NOT NULL
