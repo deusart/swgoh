@@ -44,7 +44,8 @@ def update_member_ship(
 def update_member(
 		member_name, member_allycode, member_power
 		, member_power_characters, member_power_ships
-        , member_ligue, updated
+        , member_ligue, member_squad_rank, member_fleet_rank
+        , updated
         ):    
     query = "exec stage.insert_member "
     query += f"'{member_name}', "
@@ -53,6 +54,8 @@ def update_member(
     query += f"'{member_power_characters}', "
     query += f"'{member_power_ships}', "
     query += f"'{member_ligue}', "
+    query += f"'{member_squad_rank}', "
+    query += f"'{member_fleet_rank}', "
     query += f"'{updated}' "
     execute(query)
 
@@ -86,3 +89,60 @@ def update_member_gac(
     query += f"'{gac_rank}', "
     query += f"'{gac_end_time}' "
     execute(query)
+
+def update_member_mod(
+			member_allycode, character_id, mod_id, mod_level, mod_pips
+			, mod_set, mod_slot, mod_primary_stat, mod_primary_value
+			, mod_second_01_stat, mod_second_01_value, mod_second_01_roll
+			, mod_second_02_stat, mod_second_02_value, mod_second_02_roll
+			, mod_second_03_stat, mod_second_03_value, mod_second_03_roll
+			, mod_second_04_stat, mod_second_04_value, mod_second_04_roll
+        ):    
+    query = "exec stage.insert_member_mod "
+    query += f"'{member_allycode}', "
+    query += f"'{character_id}', "
+    query += f"'{mod_id}', "
+    query += f"'{mod_level}', "
+    query += f"'{mod_pips}', "
+    query += f"'{mod_set}', "
+    query += f"'{mod_slot}', "
+    query += f"'{mod_primary_stat}', "
+    query += f"'{mod_primary_value}', "
+    query += f"'{mod_second_01_stat}', "
+    query += f"'{mod_second_01_value}', "
+    query += f"'{mod_second_01_roll}', "
+    query += f"'{mod_second_02_stat}', "
+    query += f"'{mod_second_02_value}', "
+    query += f"'{mod_second_02_roll}', "
+    query += f"'{mod_second_03_stat}', "
+    query += f"'{mod_second_03_value}', "
+    query += f"'{mod_second_03_roll}', "
+    query += f"'{mod_second_04_stat}', "
+    query += f"'{mod_second_04_value}', "
+    query += f"'{mod_second_04_roll}' "
+    execute(query)
+
+def update_member_swgohgg(
+            member_allycode, skillrating, datacrons_0, datacrons_1
+            , datacrons_2, datacrons_3, datacrons_4, datacrons_5
+            , datacrons_6, datacrons_7, datacrons_8, datacrons_9	
+            , last_updated
+        ):    
+    query = "exec stage.insert_member_swgohgg "
+    query += f"'{member_allycode}', "
+    query += f"'{skillrating}', "
+    query += f"'{datacrons_0}', "
+    query += f"'{datacrons_1}', "
+    query += f"'{datacrons_2}', "
+    query += f"'{datacrons_3}', "
+    query += f"'{datacrons_4}', "
+    query += f"'{datacrons_5}', "
+    query += f"'{datacrons_6}', "
+    query += f"'{datacrons_7}', "
+    query += f"'{datacrons_8}', "
+    query += f"'{datacrons_9}', "
+    query += f"'{last_updated}' "
+    print(query)
+    execute(query)
+
+    

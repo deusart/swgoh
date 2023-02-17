@@ -71,11 +71,28 @@ def update_google_legends():
     worksheet.update('A3', gdata)
 
     query = """
-    select 
-    member_name, CAST(updated_at as nvarchar(10)) as updated_at
-    , grgeos, grtroopers, grclones, grpadme
-    from google.guild_requirements
-    order by check_sum desc
+        select 
+            gr.member_name, CAST(updated_at as nvarchar(10)) as updated_at
+            , grgeos
+            , CAST(ISNULL(geos_avg, 0) AS float) AS geos_avg
+            , grtroopers
+            , CAST(ISNULL(troopers_avg, 0) AS float) AS troopers_avg
+            , grclones
+            , CAST(ISNULL(clones_avg, 0) AS float) AS clones_avg
+            , grpadme
+            , CAST(ISNULL(padme_avg, 0) AS float) AS padme_avg
+        from google.guild_requirements gr
+        LEFT JOIN (
+            SELECT  member_name
+                , SUM(IIF(legend_id = 'GR_GEOS' AND delta > 0, delta, 0)) AS geos_avg
+                , SUM(IIF(legend_id = 'GR_TROOPERS' AND delta > 0, delta, 0)) AS troopers_avg
+                , SUM(IIF(legend_id = 'GR_CLONES' AND delta > 0, delta, 0)) AS clones_avg
+                , SUM(IIF(legend_id = 'GR_PADME' AND delta > 0, delta, 0)) AS padme_avg
+            FROM swgoh.rules.progression
+            WHERE legend_id in ('GR_GEOS','GR_CLONES','GR_TROOPERS','GR_PADME')
+            GROUP BY member_name
+        ) prg on prg.member_name = gr.member_name
+        order by check_sum desc
     ;
     """
     data = select(query)
@@ -154,11 +171,11 @@ def update_google_guild():
     
     query = """
     SELECT
-        member_name, member_allycode, member_ligue
+        member_name, member_allycode, member_ligue, member_fleet_rank
         , avg_tickets_lifetime, avg_tickets_month
         , avg_tickets_half_month, tickets_last_updated
         , member_power, avg_monthly_power, member_power_characters, member_power_ships
-        , legends_count, relics_count, omicrons_count, zetas_count
+        , mods_quality, legends_count, relics_count, omicrons_count, zetas_count
         , r9_count, r8_count, r7_count, r0_6_count, g12_count
         , top_unit
         , omicrons_ga5x5, omicrons_ga3x3, omicrons_tb, omicrons_tw        
@@ -216,5 +233,83 @@ def update_google_guild():
     worksheet = sheet.worksheet("GACHISTORY")
     worksheet.update('A4', gdata)
 
+    clean = _create_clean_array(16)
+    worksheet = sheet.worksheet("TICKETSHISTORY")
+    worksheet.update('A3', clean)
+
+    query = """
+    SELECT member_name
+        ,[202112],[202201],[202202],[202203]
+        ,[202204],[202205],[202206],[202207]
+        ,[202208],[202209],[202210],[202211]
+        ,[202212],[202301],[202302]
+    FROM swgoh.google.tickets_history
+    """
+    data = select(query)
+    gdata = []
+    for item in data:
+        gdata.append(list(item))
+    worksheet = sheet.worksheet("TICKETSHISTORY")
+    worksheet.update('A3', gdata)
+
+    clean = _create_clean_array(21)
+    worksheet = sheet.worksheet("SCORE")
+    worksheet.update('A3', clean)
+
+    query = """
+    SELECT 
+        member_allycode, member_name, total_score
+        , power_score, power_progress_score, mods_score
+        , gac_score, tickets_score, fleet_rank_score, arena_rank_score
+        , omicron_score, zetas_score, legend_count_score, legend_score
+        , journey_score, fleet_score, relic_score, relic_progress_score, relic_level_score
+        , geods_score, conquest_score
+    FROM [swgoh].[core].members_score
+    ORDER BY total_score desc
+    """
+    data = select(query)
+    gdata = []
+    for item in data:
+        gdata.append(list(item))
+    worksheet = sheet.worksheet("SCORE")
+    worksheet.update('A3', gdata)
+
 def update_google_gac():
    pass
+
+def update_google_charts():
+    client = gspread.authorize(creds)
+    file = 'thehordeby'
+    sheet = client.open(file)
+
+    query = """
+        select 
+        CONCAT_WS(
+            '-'
+            , year_month/100
+            , IIF(
+                year_month%100<10
+                , CONCAT('0',CAST(year_month%100 AS nvarchar(20)))
+                , CAST(year_month%100 AS nvarchar(20))
+            )
+        ) AS year_month
+        , ROUND(CAST(SUM(member_power) AS float)/1000000,2) AS member_power
+        , SUM(member_relics) AS member_relics
+        , SUM(member_omicrons) AS member_omicrons
+        , SUM(member_legends) AS member_legends
+        , SUM(IIF(member_ligue='KYBER',1,0)) AS KYBER
+        , SUM(IIF(member_ligue='AURODIUM',1,0)) AS AURODIUM
+        , SUM(IIF(member_ligue='CHROMIUM',1,0)) AS CHROMIUM
+        , SUM(IIF(member_ligue='BRONZIUM',1,0)) AS BRONZIUM
+        , SUM(IIF(member_ligue='CARBONITE',1,0)) AS CARBONITE
+        from google.charts
+        group by year_month
+    ;
+    """
+
+    data = select(query)
+    gdata = []
+    for item in data:
+        gdata.append(list(item))
+    worksheet = sheet.worksheet("Charts")
+    worksheet.update('A2', gdata)

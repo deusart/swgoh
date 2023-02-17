@@ -16,4 +16,10 @@ legends = [
     , 'SITHPALPATINE'
     , 'LORDVADER'
     , 'GLREY'
+    , 'JABBATHEHUTT'
+]
+
+ship_legends = [
+    'CAPITALPROFUNDITY'
+    , 'CAPITALEXECUTOR'
 ]
