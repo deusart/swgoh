@@ -7,7 +7,7 @@ AS
 		mcs.member_allycode
 		, mcs.skill_id, mcs.character_id
 		, iif(mcs.tier = mcs.tier_max and is_omicron = 1, 1, 0) AS omicron_applied
-		, iif(mcs.tier = mcs.tier_max and s.is_zeta = 1, 1, 0) AS zeta_applied
+		, iif(mcs.tier >= 8 and s.is_zeta = 1, 1, 0) AS zeta_applied
 		, iif(mcs.tier = mcs.tier_max and is_omega = 1, 1, 0) AS omega_applied
 		, CAST(is_omicron AS INT) AS is_omicron
 		, CAST(s.is_zeta AS INT) AS is_zeta

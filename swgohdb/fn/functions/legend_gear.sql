@@ -12,6 +12,7 @@ BEGIN
 		WHEN @gear < 12 THEN 0.5
 		WHEN @gear = 12 THEN 0.75
 		WHEN @gear = 13 THEN 1
+		ELSE 0
 	END
 END
 GO

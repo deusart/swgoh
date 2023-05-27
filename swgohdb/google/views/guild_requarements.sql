@@ -17,6 +17,12 @@ AS
 		, sum(iif(journey_id = 'GR_TROOPERS', journey_status, 0.0)) as grtroopers
 		, sum(iif(journey_id = 'GR_CLONES', journey_status, 0.0)) as grclones
 		, sum(iif(journey_id = 'GR_PADME', journey_status, 0.0)) as grpadme
+		
+		, sum(iif(journey_id = 'KRAYT_OLD', journey_status, 0.0)) as krold
+		, sum(iif(journey_id = 'KRAYT_HUTT', journey_status, 0.0)) as krhutt
+		, sum(iif(journey_id = 'KRAYT_JAWA', journey_status, 0.0)) as krjawa
+		, sum(iif(journey_id = 'KRAYT_TASKEN', journey_status, 0.0)) as krtusken
+		, sum(iif(journey_id = 'KRAYT_MANDO', journey_status, 0.0)) as krmando
 	FROM core.status_journeys js
 	WHERE fn.is_current(member_allycode) = 1
 	group by js.member_allycode, member_name

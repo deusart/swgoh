@@ -17,6 +17,7 @@ AS
 		, mo.omicrons_ga5x5, mo.omicrons_ga3x3
 		, mo.omicrons_tb, mo.omicrons_tw
 		, cast(log_datetime as nvarchar(11)) as tickets_last_updated
+		, k.krayt_score
 		, round(cast(mods_speed_arrows as float)/mods_arrows,2) -- mods_arrows_score
 			+ round(cast(mods_6_pips as float)/mods_total_count,2) * 3 -- mods_pips_6_score
 			+ round(cast(mods_5_pips as float)/mods_total_count,2) -- mods_pips_5_score
@@ -28,12 +29,12 @@ AS
 	FROM stage.members AS m 
 	INNER JOIN rules.members_roster AS mcr 
 		ON m.member_allycode = mcr.member_allycode
-	INNER JOIN hordeby.analise.members_omicrons AS mo 
+	LEFT JOIN hordeby.analise.members_omicrons AS mo 
 		ON m.member_allycode = mo.member_allycode 
 	LEFT OUTER JOIN rules.tickets AS t 
 		ON t.member_name = m.member_name
 	INNER JOIN stage.members_current mc on mc.member_allycode = m.member_allycode
+	LEFT JOIN core.krayt k on k.member_allycode = m.member_allycode
 	LEFT JOIN rules.power_progress pp on pp.member_allycode = m.member_allycode
 	LEFT JOIN core.members_mods_total AS mods ON m.member_allycode = mods.member_allycode
-	WHERE (m.member_current = 1)
 GO

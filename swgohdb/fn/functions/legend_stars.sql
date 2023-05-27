@@ -11,7 +11,7 @@ BEGIN
 		WHEN @req_stars - @stars = 1 THEN 0.5
 		WHEN @req_stars - @stars = 2 THEN 0.25
 		WHEN @req_stars - @stars = 3 THEN 0.1
-		WHEN @req_stars - @stars > 3 THEN 0
+		ELSE 0
 	END
 END
 GO

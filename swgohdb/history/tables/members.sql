@@ -17,6 +17,7 @@ BEGIN
 		, member_ligue nvarchar(max) NULL
 		, member_squad_rank int NULL
 		, member_fleet_rank int NULL
+		, member_skillrating int NULL
 		, updated bigint NULL
 		, created_at datetime NOT NULL
 		, updated_at datetime NOT NULL
@@ -36,11 +37,13 @@ BEGIN
 		member_name, member_allycode, member_power
 		, member_power_characters, member_power_ships
 		, member_ligue, member_squad_rank, member_fleet_rank 
+		, member_skillrating
 		, updated
 		)
 	select 	member_name, member_allycode, member_power
 		, member_power_characters, member_power_ships
 		, member_ligue, member_squad_rank, member_fleet_rank
+		, member_skillrating
 		, updated
 	from inserted
 END

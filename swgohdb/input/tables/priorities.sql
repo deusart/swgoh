@@ -1,25 +1,18 @@
 USE swgoh
 GO
 
--- cost
+-- priorities
 IF NOT EXISTS (
-	SELECT * FROM sys.tables WHERE [name] = N'cost'
+	SELECT * FROM sys.tables WHERE [name] = N'priorities'
 	AND schema_id = (SELECT schema_id FROM sys.schemas WHERE [name] = N'input')
 )
 BEGIN
-	CREATE TABLE input.cost (
+	CREATE TABLE input.priorities (
 		row_id int IDENTITY(1,1) NOT NULL
-		, gear_part_name nvarchar(max) NULL
-		, crystal float
-		, gac float
-		, gt float
-		, get1 float
-		, get2 float	
-		, mk1 float
-		, mk2 float
-		, mk3 float		
+		, priority_num nvarchar(50) NULL
+		, priority_name nvarchar(50) NULL		
 		, updated_at datetime NOT NULL
-		, CONSTRAINT [PK_cost_input] 
+		, CONSTRAINT [PK_priorities_input] 
 			PRIMARY KEY CLUSTERED (
 				row_id ASC
 			) 
@@ -31,7 +24,7 @@ BEGIN
 				, ALLOW_PAGE_LOCKS = ON
 				, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF
 			) ON [PRIMARY]
-	) ON [PRIMARY]	
-	ALTER TABLE input.cost ADD DEFAULT (GETUTCDATE()) FOR updated_at
+	) ON [PRIMARY]
+	ALTER TABLE input.priorities ADD DEFAULT (GETUTCDATE()) FOR updated_at
 END
 GO
